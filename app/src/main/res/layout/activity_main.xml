@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp"
+    tools:context="com.eko.sdktest.MainActivity">
+
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="37dp"
+        android:onClick="loadProject"
+        android:text="LOAD"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:onClick="play"
+        android:text="Play"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customEventsTextView" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:onClick="pause"
+        android:text="Pause"
+        app:layout_constraintStart_toEndOf="@+id/button2"
+        app:layout_constraintTop_toBottomOf="@+id/customEventsTextView" />
+
+    <com.eko.sdk.EkoPlayer
+        android:id="@+id/ekoplayer"
+        android:layout_width="0dp"
+        android:layout_height="220dp"
+        android:layout_marginTop="16dp"
+        app:autoplay="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button2"
+        app:showCover="true">
+
+    </com.eko.sdk.EkoPlayer>
+
+    <TextView
+        android:id="@+id/eventsTextView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:gravity="bottom"
+        android:nestedScrollingEnabled="true"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ekoplayer" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/projectIdTextView"
+        android:layout_width="240dp"
+        android:layout_height="60dp"
+        android:hint="Project ID"
+        android:inputType="textVisiblePassword|textNoSuggestions"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/customEventsTextView"
+        android:layout_width="240dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:hint="Custom Events"
+        android:inputType="textVisiblePassword|textNoSuggestions"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/projectIdTextView" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:onClick="clearLog"
+        android:text="Clear Log"
+        app:layout_constraintStart_toEndOf="@+id/button3"
+        app:layout_constraintTop_toBottomOf="@+id/customEventsTextView" />
+
+    <TextView
+        android:id="@+id/loadingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="32dp"
+        android:text="Loading..."
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/ekoplayer"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <CheckBox
+        android:id="@+id/customCoverCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="8dp"
+        android:checkable="true"
+        android:checked="false"
+        android:text="Use custom cover"
+        app:layout_constraintStart_toEndOf="@+id/customEventsTextView"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
+
+    <CheckBox
+        android:id="@+id/customCoverCheck2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:checkable="true"
+        android:checked="false"
+        android:onClick="handleUrlsChecked"
+        android:text="Handle URLs"
+        app:layout_constraintStart_toEndOf="@+id/customEventsTextView"
+        app:layout_constraintTop_toBottomOf="@+id/customCoverCheck" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:onClick="increasePlayerSize"
+        android:text="+"
+        app:layout_constraintEnd_toEndOf="@+id/ekoplayer"
+        app:layout_constraintTop_toTopOf="@+id/ekoplayer" />
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:onClick="decreasePlayerSize"
+        android:text="-"
+        app:layout_constraintEnd_toStartOf="@+id/button5"
+        app:layout_constraintTop_toTopOf="@+id/ekoplayer" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

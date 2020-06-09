@@ -1,0 +1,6 @@
+<resources>
+    <declare-styleable name="EkoPlayer">
+        <attr name="autoplay" format="boolean"  />
+        <attr name="showCover" format="boolean" />
+    </declare-styleable>
+</resources>
