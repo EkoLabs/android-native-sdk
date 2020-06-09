@@ -19,7 +19,7 @@ class EkoProjectLoader {
         this.requestQueue = Volley.newRequestQueue(context);
     }
 
-    private fun buildEmbedUrl(json: JSONObject, config: EkoPlayerConfiguration): String {
+    private fun buildEmbedUrl(json: JSONObject, config: EkoPlayerOptions): String {
         if (!json.has("url")) {
             throw EkoPlayerError(EkoPlayerError.TYPE.MALFORMED_RESPONSE, "URL not found - Missing embed url in response")
         }
@@ -36,7 +36,7 @@ class EkoProjectLoader {
     }
 
     fun getProjectEmbedUrl(
-        config: EkoPlayerConfiguration,
+        config: EkoPlayerOptions,
         successListener: (url: String, metadata: JSONObject?) -> Unit,
         errorListener: (error: EkoPlayerError) -> Unit
     ) {

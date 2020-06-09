@@ -1,9 +1,7 @@
 package com.eko.sdktest
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
@@ -13,10 +11,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.Toast
 import com.eko.sdk.*
-import com.eko.sdktest.R
-import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONArray
-import org.json.JSONObject
 
 class MainActivity : AppCompatActivity(), IEkoPlayerListener, IEkoPlayerUrlListener {
     private lateinit var projectIdTextView: TextView
@@ -72,7 +67,7 @@ class MainActivity : AppCompatActivity(), IEkoPlayerListener, IEkoPlayerUrlListe
         val projectId = projectIdTextView.text
         val customEvents = customEventsTextView.text
         if (projectId.isNotBlank()) {
-            val configuration = EkoPlayerConfiguration()
+            val configuration = EkoPlayerOptions()
             configuration.events = customEvents?.split(", ")!! + "eko.canplay"
             if (customCoverCheck.isChecked) {
                 val customCover = View(this)

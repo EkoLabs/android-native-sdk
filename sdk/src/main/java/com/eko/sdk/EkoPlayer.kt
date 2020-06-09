@@ -11,7 +11,6 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
@@ -19,25 +18,21 @@ import android.widget.ProgressBar
 import org.json.JSONArray
 
 /**
- * TODO: document your custom view class.
+ * EkoPlayer will load, play and interact easily with eko videos
  */
 class EkoPlayer : FrameLayout {
     private lateinit var webView: WebView
-    private lateinit var jsBridge: JSBridge
     private var eventsListener: IEkoPlayerListener? = null
     private var urlListener: IEkoPlayerUrlListener? = null
     private var coverShown = false
+
+    /**
+     * App name is for analytics purposes. Will default to the bundle id if not set.
+     */
     var appName: String = ""
         set(value) {
             field = value
             setUa()
-        }
-
-    var customCover: View? = null
-        set(value) {
-            value?.layoutParams =
-                LayoutParams(LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-            field = value
         }
 
     constructor(context: Context) : super(context) {
@@ -142,37 +137,61 @@ class EkoPlayer : FrameLayout {
         webView.settings?.userAgentString = webView.settings?.userAgentString + sdkUa
     }
 
+    //PUBLIC
+
+    /**
+     * Set a listener that listens to events configured in the options object when [load] was called.
+     * Also listens to any errors that might happen.
+     * @see IEkoPlayerListener
+     */
     fun setEkoPlayerListener(ekoPlayerListener: IEkoPlayerListener?) {
         this.eventsListener = ekoPlayerListener
     }
 
+    /**
+     * Set a listener to handle link outs.
+     * If set to `null`, link outs will automatically open in the browser.
+     * @see IEkoPlayerUrlListener
+     */
     fun setEkoPlayerUrlListener(ekoPlayerUrlListener: IEkoPlayerUrlListener?) {
         this.urlListener = ekoPlayerUrlListener
     }
 
+    /**
+     * Will load and display an eko video. The EkoPlayer will display the loading animation while it prepares the project for playback
+     * with default options
+     * @param projectId The ID of the project to display
+     */
     fun load(projectId: String) {
-        load(projectId, EkoPlayerConfiguration())
+        load(projectId, EkoPlayerOptions())
     }
 
-    fun load(projectId: String, config: EkoPlayerConfiguration) {
+    /**
+     * Will load and display an eko video. The EkoPlayer will display the loading animation while it prepares the project for playback
+     * if `showCover=true` in the options.
+     * @param projectId The ID of the project to display
+     * @param options The options for loading the project
+     * @see EkoPlayerOptions
+     */
+    fun load(projectId: String, options: EkoPlayerOptions) {
         setUa()
         val projectLoader = EkoProjectLoader(projectId, context)
-        if (config.showCover) {
-            if (!config.events.contains("eko.canplay")) {
-                config.events += "eko.canplay"
+        if (options.showCover) {
+            if (!options.events.contains("eko.canplay")) {
+                options.events += "eko.canplay"
             }
-            if (config.customCover != null) {
-                addView(config.customCover)
+            if (options.customCover != null) {
+                addView(options.customCover)
             } else {
                 addCover()
             }
             coverShown = true
         }
-        if (!config.events.contains("urls.openinparent")) {
-            config.events += "urls.openinparent"
+        if (!options.events.contains("urls.openinparent")) {
+            options.events += "urls.openinparent"
         }
         webView.visibility = View.VISIBLE
-        projectLoader.getProjectEmbedUrl(config,
+        projectLoader.getProjectEmbedUrl(options,
             { url, metadata ->
                 eventsListener?.onEvent("metadata", JSONArray(arrayOf(metadata)))
                 webView.loadUrl(url)
@@ -185,14 +204,25 @@ class EkoPlayer : FrameLayout {
             })
     }
 
+    /**
+     * Will attempt to begin playing an eko video.
+     */
     fun play() {
         invoke("eko.play")
     }
 
+    /**
+     * Will attempt to pause an eko video.
+     */
     fun pause() {
         invoke("eko.pause")
     }
 
+    /**
+     * Will call any player function defined on the [developer site](https://developer.eko.com/api)
+     * @param method The player method to call
+     * @param args Any arguments that should be passed into the method (must be serializable to json)
+     */
     fun invoke(method: String, args: List<Any>? = null) {
         var argsStr = "[]"
         if (args != null) {
