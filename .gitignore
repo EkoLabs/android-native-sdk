@@ -13,4 +13,4 @@
 .externalNativeBuild
 .cxx
 /gradle/wrapper/gradle-wrapper.jar
-app/release
+samples/*/release

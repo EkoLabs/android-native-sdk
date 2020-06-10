@@ -5,9 +5,6 @@ apply plugin: 'org.jetbrains.dokka'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'maven-publish'
 
-version '0.0.1'
-group 'com.eko'
-
 Properties properties = new Properties()
 if (project.rootProject.file('local.properties').canRead()) {
     properties.load(project.rootProject.file("local.properties").newDataInputStream())
@@ -32,21 +29,19 @@ task androidJavadocs(type: Javadoc) {
 
 task androidJavadocsJar(type: Jar, dependsOn: dokkaJavadoc) {
     from "$buildDir/dokkaJavadoc"
-    classifier = 'javadoc'
 }
 
 task androidSourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
 }
 
 publishing {
     publications {
         Production(MavenPublication) {
             artifact("$buildDir/outputs/aar/sdk-release.aar") // replace with your library name
-            groupId this.group
+            groupId 'com.eko'
             artifactId 'android-native-sdk' // replace with your library artifact id
-            version this.version
+            version android.getDefaultConfig().versionName
 
             artifact androidJavadocsJar
             artifact androidSourcesJar
@@ -76,7 +71,7 @@ bintray {
     publications = ['Production']
     configurations = ['archives']
     // Default: false. Whether to run this as dry-run, without deploying
-    dryRun = false
+    dryRun = true
     // Default: false. Whether to override version artifacts already published
     override = true
     // Default: false. Whether version should be auto published after an upload

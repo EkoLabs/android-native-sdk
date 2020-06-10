@@ -1,2 +1,2 @@
-include ':app', ':sdk'
+include ':samples:helloeko', ':sdk'
 rootProject.name='SDK'
