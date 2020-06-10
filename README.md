@@ -27,7 +27,7 @@ Will load and display an eko video. The EkoPlayer will display the loading anima
 Will attempt to begin playing an eko video.
 #### pause()
 Will attempt to pause an eko video.
-#### invoke(method: String, args: List<Any>?)
+#### invoke(method: String, args: List\<Any>?)
 Will call any player function defined on the developer site and return the response via callback function.
 
 | Param           | Type           | Description  |
@@ -71,7 +71,7 @@ There can be link outs from within an eko video. This function will be called wh
 ### Properties
 #### params: Map<String, String> = { “autoplay”: true }
 A list of embed params that will affect the delivery.
-#### events: List<String> = []
+#### events: List\<String> = []
 A list of events that should be forwarded to the app
 #### showCover: Boolean = true
 Will the SDK show a cover while loading
