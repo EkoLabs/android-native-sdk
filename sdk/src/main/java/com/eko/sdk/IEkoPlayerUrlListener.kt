@@ -9,5 +9,5 @@ interface IEkoPlayerUrlListener {
      * This function will be called whenever a link out is supposed to occur.
      * The listener is responsible for opening the url.
      */
-    fun onOpenUrl(url: String)
+    fun onUrlOpen(url: String)
 }

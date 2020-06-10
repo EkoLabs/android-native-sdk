@@ -94,7 +94,7 @@ class EkoPlayer : FrameLayout {
             val url = args?.getJSONObject(0)?.getString("url")
                 ?: return // event is malformed so we return
             if (urlListener != null) {
-                urlListener!!.onOpenUrl(url)
+                urlListener!!.onUrlOpen(url)
             } else { // No url listener was given so we open the browser
                 context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
             }

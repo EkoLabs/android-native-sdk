@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity(), IEkoPlayerListener, IEkoPlayerUrlListe
         loadingTextView.visibility = View.INVISIBLE
     }
 
-    override fun onOpenUrl(url: String) {
+    override fun onUrlOpen(url: String) {
         Toast.makeText(this, "URL: $url", Toast.LENGTH_LONG).show()
     }
 
