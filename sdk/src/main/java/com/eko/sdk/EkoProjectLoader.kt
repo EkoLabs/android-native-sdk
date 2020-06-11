@@ -10,7 +10,7 @@ import org.json.JSONObject
 import java.net.URLEncoder
 
 class EkoProjectLoader {
-    private val projectIDEndpoint: String = "https://sdks.eko.com/api/v1/projects/"
+    private val projectIDEndpoint: String = "https://%seko.com/api/v1/projects/"
     private var projectId: String
     private var requestQueue: RequestQueue
 
@@ -20,7 +20,7 @@ class EkoProjectLoader {
     }
 
     private fun buildEmbedUrl(json: JSONObject, config: EkoPlayerOptions): String {
-        if (!json.has("url")) {
+        if (!json.has("embedUrl")) {
             throw EkoPlayerError(EkoPlayerError.TYPE.MALFORMED_RESPONSE, "URL not found - Missing embed url in response")
         }
 
@@ -36,17 +36,22 @@ class EkoProjectLoader {
     }
 
     fun getProjectEmbedUrl(
-        config: EkoPlayerOptions,
+        options: EkoPlayerOptions,
         successListener: (url: String, metadata: JSONObject?) -> Unit,
         errorListener: (error: EkoPlayerError) -> Unit
     ) {
-        val urlString = projectIDEndpoint + projectId
+        var env = options.environment
+        if (env !== null && env.isNotBlank()) {
+            env += "."
+        }
+        val urlString = String.format(projectIDEndpoint, env) + projectId
+        println(urlString)
         val request = StringRequest(Request.Method.GET, urlString,
             Response.Listener { response ->
                 println(response)
                 try {
                     val json = JSONObject(response)
-                    successListener(buildEmbedUrl(json, config), json.optJSONObject("metadata"))
+                    successListener(buildEmbedUrl(json, options), json.optJSONObject("metadata"))
                 } catch (error: EkoPlayerError) {
                     errorListener(error)
                 }

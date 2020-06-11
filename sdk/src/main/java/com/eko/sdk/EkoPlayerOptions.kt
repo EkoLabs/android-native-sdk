@@ -35,4 +35,6 @@ class EkoPlayerOptions {
      * Please make sure the view's visibility is set to `VISIBLE`
      */
     var customCover: View? = null
+
+    var environment: String? = null
 }

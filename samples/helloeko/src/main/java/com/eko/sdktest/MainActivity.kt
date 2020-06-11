@@ -18,6 +18,8 @@ class MainActivity : AppCompatActivity(), IEkoPlayerListener, IEkoPlayerUrlListe
     private lateinit var customEventsTextView: TextView
     private lateinit var eventsTextView: TextView
     private lateinit var loadingTextView: TextView
+    private lateinit var envTextView: TextView
+    private lateinit var paramsTextView: TextView
     private lateinit var customCoverCheck: CheckBox
     private lateinit var ekoPlayer: EkoPlayer
 
@@ -29,6 +31,8 @@ class MainActivity : AppCompatActivity(), IEkoPlayerListener, IEkoPlayerUrlListe
         customEventsTextView = findViewById(R.id.customEventsTextView)
         loadingTextView = findViewById(R.id.loadingText)
         eventsTextView = findViewById(R.id.eventsTextView)
+        envTextView = findViewById(R.id.envTextView)
+        paramsTextView = findViewById(R.id.paramsTextView)
         customCoverCheck = findViewById(R.id.customCoverCheck)
         eventsTextView.movementMethod = ScrollingMovementMethod()
 
@@ -68,7 +72,19 @@ class MainActivity : AppCompatActivity(), IEkoPlayerListener, IEkoPlayerUrlListe
         val customEvents = customEventsTextView.text
         if (projectId.isNotBlank()) {
             val configuration = EkoPlayerOptions()
-            configuration.events = customEvents?.split(", ")!! + "eko.canplay"
+            configuration.events = customEvents.split(", ") + "eko.canplay"
+            val params = HashMap<String, String>()
+            val paramsStringPairs = paramsTextView.text.split(",")
+            paramsStringPairs.forEach { paramsPairString ->
+                val paramsPair = paramsPairString.split("=")
+                if (paramsPair.size == 2) {
+                    params[paramsPair[0]] = paramsPair[1]
+                }
+            }
+            if (params.isNotEmpty()) {
+                configuration.params = params
+            }
+            configuration.environment = envTextView.text.toString()
             if (customCoverCheck.isChecked) {
                 val customCover = View(this)
                 customCover.setBackgroundColor(Color.BLUE)

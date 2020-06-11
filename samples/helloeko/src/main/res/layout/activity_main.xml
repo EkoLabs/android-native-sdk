@@ -14,12 +14,11 @@
         android:id="@+id/button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="37dp"
         android:onClick="loadProject"
         android:text="LOAD"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/customEventsTextView"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/button2"
@@ -71,21 +70,38 @@
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/projectIdTextView"
         android:layout_width="240dp"
-        android:layout_height="60dp"
+        android:layout_height="40dp"
         android:hint="Project ID"
         android:inputType="textVisiblePassword|textNoSuggestions"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/customEventsTextView"
+        android:id="@+id/envTextView"
         android:layout_width="240dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="8dp"
-        android:hint="Custom Events"
+        android:layout_height="40dp"
+        android:hint="Environment"
         android:inputType="textVisiblePassword|textNoSuggestions"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/projectIdTextView" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/paramsTextView"
+        android:layout_width="240dp"
+        android:layout_height="40dp"
+        android:hint="Params"
+        android:inputType="textVisiblePassword|textNoSuggestions"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/envTextView" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/customEventsTextView"
+        android:layout_width="240dp"
+        android:layout_height="40dp"
+        android:hint="Custom Events"
+        android:inputType="textVisiblePassword|textNoSuggestions"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/paramsTextView" />
 
     <Button
         android:id="@+id/button4"
@@ -113,24 +129,21 @@
         android:id="@+id/customCoverCheck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="8dp"
         android:checkable="true"
         android:checked="false"
         android:text="Use custom cover"
-        app:layout_constraintStart_toEndOf="@+id/customEventsTextView"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintStart_toEndOf="@+id/projectIdTextView"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <CheckBox
         android:id="@+id/customCoverCheck2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
         android:checkable="true"
         android:checked="false"
         android:onClick="handleUrlsChecked"
         android:text="Handle URLs"
-        app:layout_constraintStart_toEndOf="@+id/customEventsTextView"
+        app:layout_constraintStart_toStartOf="@+id/customCoverCheck"
         app:layout_constraintTop_toBottomOf="@+id/customCoverCheck" />
 
     <Button
