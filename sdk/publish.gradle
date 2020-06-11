@@ -75,7 +75,7 @@ bintray {
     // Default: false. Whether to run this as dry-run, without deploying
     dryRun = false
     // Default: false. Whether to override version artifacts already published
-    override = false
+    override = true
     // Default: false. Whether version should be auto published after an upload
     publish = true
     pkg {
@@ -83,9 +83,9 @@ bintray {
         name = 'com.eko.sdk' // the name of the package you created inside it
         userOrg = 'ekolabs'
         version {
-            name = this.version
+            name = android.getDefaultConfig().versionName
             released = new Date()
-            vcsTag = this.version
+            vcsTag = android.getDefaultConfig().versionName
         }
     }
 }
