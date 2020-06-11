@@ -29,10 +29,12 @@ task androidJavadocs(type: Javadoc) {
 
 task androidJavadocsJar(type: Jar, dependsOn: dokkaJavadoc) {
     from "$buildDir/dokkaJavadoc"
+    classifier = 'javadoc'
 }
 
 task androidSourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
 }
 
 publishing {
@@ -71,9 +73,9 @@ bintray {
     publications = ['Production']
     configurations = ['archives']
     // Default: false. Whether to run this as dry-run, without deploying
-    dryRun = true
+    dryRun = false
     // Default: false. Whether to override version artifacts already published
-    override = true
+    override = false
     // Default: false. Whether version should be auto published after an upload
     publish = true
     pkg {
