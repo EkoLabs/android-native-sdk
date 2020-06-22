@@ -146,6 +146,17 @@
         app:layout_constraintStart_toStartOf="@+id/customCoverCheck"
         app:layout_constraintTop_toBottomOf="@+id/customCoverCheck" />
 
+    <CheckBox
+        android:id="@+id/customCoverCheck3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checkable="true"
+        android:checked="false"
+        android:onClick="handleShareChecked"
+        android:text="Handle Share"
+        app:layout_constraintStart_toStartOf="@+id/customCoverCheck"
+        app:layout_constraintTop_toBottomOf="@+id/customCoverCheck2" />
+
     <Button
         android:id="@+id/button5"
         android:layout_width="40dp"

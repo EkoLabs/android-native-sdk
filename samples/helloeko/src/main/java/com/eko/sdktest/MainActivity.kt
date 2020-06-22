@@ -13,7 +13,8 @@ import android.widget.Toast
 import com.eko.sdk.*
 import org.json.JSONArray
 
-class MainActivity : AppCompatActivity(), IEkoPlayerListener, IEkoPlayerUrlListener {
+class MainActivity : AppCompatActivity(), IEkoPlayerListener, IEkoPlayerUrlListener,
+    IEkoPlayerShareListener {
     private lateinit var projectIdTextView: TextView
     private lateinit var customEventsTextView: TextView
     private lateinit var eventsTextView: TextView
@@ -67,12 +68,20 @@ class MainActivity : AppCompatActivity(), IEkoPlayerListener, IEkoPlayerUrlListe
         Toast.makeText(this, "URL: $url", Toast.LENGTH_LONG).show()
     }
 
+    override fun onShare(url: String) {
+        Toast.makeText(this, "Shared: $url", Toast.LENGTH_LONG).show()
+    }
+
     fun loadProject(view: View) {
         val projectId = projectIdTextView.text
         val customEvents = customEventsTextView.text
         if (projectId.isNotBlank()) {
             val configuration = EkoPlayerOptions()
-            configuration.events = customEvents.split(", ") + "eko.canplay"
+            if (customEvents.isNotBlank()) {
+                configuration.events = customEvents.split(", ") + "eko.canplay"
+            } else {
+                configuration.events = listOf("eko.canplay")
+            }
             val params = HashMap<String, String>()
             val paramsStringPairs = paramsTextView.text.split(",")
             paramsStringPairs.forEach { paramsPairString ->
@@ -125,6 +134,15 @@ class MainActivity : AppCompatActivity(), IEkoPlayerListener, IEkoPlayerUrlListe
             ekoPlayer.setEkoPlayerUrlListener(this)
         } else {
             ekoPlayer.setEkoPlayerUrlListener(null)
+        }
+    }
+
+    fun handleShareChecked(view: View) {
+        val isChecked = (view as CheckBox).isChecked
+        if (isChecked) {
+            ekoPlayer.setEkoPlayerShareListener(this)
+        } else {
+            ekoPlayer.setEkoPlayerShareListener(null)
         }
     }
 }

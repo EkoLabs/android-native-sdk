@@ -23,6 +23,7 @@ import org.json.JSONArray
 class EkoPlayer : FrameLayout {
     private lateinit var webView: WebView
     private var eventsListener: IEkoPlayerListener? = null
+    private var shareListener: IEkoPlayerShareListener? = null
     private var urlListener: IEkoPlayerUrlListener? = null
     private var coverShown = false
 
@@ -99,6 +100,19 @@ class EkoPlayer : FrameLayout {
                 context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
             }
             return
+        } else if (type == "eko.share.intent") {
+            val url = args?.getJSONObject(0)?.getString("url")
+                ?: return // event is malformed so we return
+            if (shareListener!= null) {
+                shareListener!!.onShare(url)
+            } else { // No share listener was open so we open the share screen
+                val shareIntent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, url)
+                    this.type = "text/plain"
+                }
+                context.startActivity(Intent.createChooser(shareIntent, null))
+            }
         }
 
         eventsListener?.onEvent(type, args)
@@ -149,6 +163,15 @@ class EkoPlayer : FrameLayout {
     }
 
     /**
+     * Set a listener to handle share intents.
+     * If set to `null`, the default Android share screen will be shown.
+     * @see IEkoPlayerShareListener
+     */
+    fun setEkoPlayerShareListener(ekoPlayerShareLister: IEkoPlayerShareListener?) {
+        this.shareListener = ekoPlayerShareLister
+    }
+
+    /**
      * Set a listener to handle link outs.
      * If set to `null`, link outs will automatically open in the browser.
      * @see IEkoPlayerUrlListener
@@ -189,6 +212,9 @@ class EkoPlayer : FrameLayout {
         }
         if (!options.events.contains("urls.openinparent")) {
             options.events += "urls.openinparent"
+        }
+        if (!options.events.contains("share.intent")) {
+            options.events += "share.intent"
         }
         webView.visibility = View.VISIBLE
         projectLoader.getProjectEmbedUrl(options,
