@@ -73,11 +73,11 @@ There can be link outs from within an eko project. This function will be called 
 Listener interface for share events.
 ### Methods
 #### onShare(url: String)
-There can be share intents from within an eko project via share buttons or ekoshell. This function will be called whenever a share intent happend.
+There can be share intents from within an eko project via share buttons or ekoshell. This function will be called whenever a share intent happened.
 
 | Param           | Type           | Description  |
 | :-------------: |:--------------:| :------------|
-| url | `String` | The cannonical url of the project. |
+| url | `String` | The canonical url of the project. |
 
 ## EkoOptions
 ### Properties
