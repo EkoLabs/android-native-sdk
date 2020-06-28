@@ -90,10 +90,9 @@ There can be share intents from within an eko project via share buttons or ekosh
 A list of embed params that will affect the delivery.
 #### events: List\<String> = []
 A list of events that should be forwarded to the app
-#### showCover: Boolean = true
-Will the SDK show a cover while loading
-#### customCover: View?
-A custom view to display instead of the default one
+#### cover: Class\<out View>? = EkoDefaultCover::class.java
+A View to cover the loading of the eko project. Set to `null` to disable.
+Will be initialized by the EkoPlayer.
 
 # Default Player Events
 #### eko.canplay
