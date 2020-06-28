@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.Toast
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity(), IEkoPlayerListener, IEkoPlayerUrlListe
     private lateinit var envTextView: TextView
     private lateinit var paramsTextView: TextView
     private lateinit var customCoverCheck: CheckBox
+    private lateinit var clearDataButton: Button
     private lateinit var ekoPlayer: EkoPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +37,7 @@ class MainActivity : AppCompatActivity(), IEkoPlayerListener, IEkoPlayerUrlListe
         envTextView = findViewById(R.id.envTextView)
         paramsTextView = findViewById(R.id.paramsTextView)
         customCoverCheck = findViewById(R.id.customCoverCheck)
+        clearDataButton = findViewById(R.id.clearDataButton)
         eventsTextView.movementMethod = ScrollingMovementMethod()
 
         ekoPlayer = findViewById(R.id.ekoplayer)
@@ -73,6 +76,7 @@ class MainActivity : AppCompatActivity(), IEkoPlayerListener, IEkoPlayerUrlListe
     }
 
     fun loadProject(view: View) {
+        clearDataButton.isEnabled = false
         val projectId = projectIdTextView.text
         val customEvents = customEventsTextView.text
         if (projectId.isNotBlank()) {
@@ -144,5 +148,9 @@ class MainActivity : AppCompatActivity(), IEkoPlayerListener, IEkoPlayerUrlListe
         } else {
             ekoPlayer.setEkoPlayerShareListener(null)
         }
+    }
+
+    fun onClearDataButtonPressed(view: View) {
+        EkoPlayer.clearData(this)
     }
 }

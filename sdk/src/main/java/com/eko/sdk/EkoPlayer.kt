@@ -6,11 +6,14 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
+import android.webkit.CookieManager
+import android.webkit.WebStorage
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
@@ -149,6 +152,26 @@ class EkoPlayer : FrameLayout {
             this.context.packageManager.getPackageInfo(context.packageName, 0).versionName
         val sdkUa = " - ekoNativeSDK/$sdkVersion - $appName/$appVersion"
         webView.settings?.userAgentString = webView.settings?.userAgentString + sdkUa
+    }
+
+    //STATIC
+    companion object {
+        /**
+         * Clears all the all EkoPlayer's Webview data, including:
+         * cache, cookies and javasctript storage.
+         * NOTE: Since Webview data in Android is shared at the app level, calling this method
+         * will clear the data for all of the app's Webviews.
+         */
+        @JvmStatic
+        fun clearData(context: Context) {
+            WebView(context).clearCache(true)
+            WebStorage.getInstance().deleteAllData()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                CookieManager.getInstance().removeAllCookies(null)
+            } else {
+                CookieManager.getInstance().removeAllCookie()
+            }
+        }
     }
 
     //PUBLIC
