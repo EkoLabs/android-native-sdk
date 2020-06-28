@@ -121,22 +121,24 @@ class EkoPlayer : FrameLayout {
         eventsListener?.onEvent(type, args)
     }
 
-    private fun addCover() {
+    private fun addCover(coverClass: Class<out View>) {
         if (coverShown) {
             return
         }
-        val coverContainer = FrameLayout(context)
-        coverContainer.layoutParams =
-            LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, Gravity.CENTER)
-        coverContainer.setBackgroundColor(Color.BLACK)
-        val spinnerSize =
-            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40f, resources.displayMetrics)
-                .toInt()
-        val spinner = ProgressBar(context)
-        spinner.layoutParams = LayoutParams(spinnerSize, spinnerSize, Gravity.CENTER)
-        spinner.indeterminateDrawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
-        coverContainer.addView(spinner)
-        addView(coverContainer)
+//        val coverContainer = FrameLayout(context)
+//        coverContainer.layoutParams =
+//            LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, Gravity.CENTER)
+//        coverContainer.setBackgroundColor(Color.BLACK)
+//        val spinnerSize =
+//            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40f, resources.displayMetrics)
+//                .toInt()
+//        val spinner = ProgressBar(context)
+//        spinner.layoutParams = LayoutParams(spinnerSize, spinnerSize, Gravity.CENTER)
+//        spinner.indeterminateDrawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
+//        coverContainer.addView(spinner)
+        val coverConstructor = coverClass.getConstructor(Context::class.java)
+        addView(coverConstructor.newInstance(context))
+        coverShown = true;
     }
 
     private fun removeCover() {
@@ -222,16 +224,11 @@ class EkoPlayer : FrameLayout {
     fun load(projectId: String, options: EkoPlayerOptions) {
         setUa()
         val projectLoader = EkoProjectLoader(projectId, context)
-        if (options.showCover) {
+        if (options.cover != null) {
             if (!options.events.contains("eko.canplay")) {
                 options.events += "eko.canplay"
             }
-            if (options.customCover != null) {
-                addView(options.customCover)
-            } else {
-                addCover()
-            }
-            coverShown = true
+            addCover(options.cover!!)
         }
         if (!options.events.contains("urls.openinparent")) {
             options.events += "urls.openinparent"

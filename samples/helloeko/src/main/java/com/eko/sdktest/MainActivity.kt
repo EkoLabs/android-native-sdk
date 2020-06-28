@@ -99,9 +99,9 @@ class MainActivity : AppCompatActivity(), IEkoPlayerListener, IEkoPlayerUrlListe
             }
             configuration.environment = envTextView.text.toString()
             if (customCoverCheck.isChecked) {
-                val customCover = View(this)
-                customCover.setBackgroundColor(Color.BLUE)
-                configuration.customCover = customCover
+//                val customCover = View(this)
+//                customCover.setBackgroundColor(Color.BLUE)
+                configuration.cover = CustomCover::class.java
             }
             ekoPlayer.load(projectId.toString(), configuration)
             loadingTextView.visibility = View.VISIBLE
