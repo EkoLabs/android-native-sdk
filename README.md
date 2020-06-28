@@ -4,6 +4,11 @@ A lightweight SDK that allows for easy integration of eko projects into an Andro
 # API
 ## EkoPlayer
 This is the view in which the eko player will reside. It will also forward any events from the player to the rest of the app.
+### Static
+#### EkoPlayer.clearData(context: Context)
+Clears all the all EkoPlayer's Webview data, including: cache, cookies and javasctript storage.
+NOTE: Since Webview data in Android is shared at the app level, calling this method
+will clear the data for all of the app's Webviews.
 ### Properties
 #### appName: String
 App name is for analytics purposes. Will default to the bundle id if not set.
