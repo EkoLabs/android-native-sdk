@@ -16,7 +16,7 @@ App name is for analytics purposes. Will default to the bundle id if not set.
 #### init()
 The EkoPlayerView can be initialized programmatically or included via the layout XML.
 #### load(projectId: String, options: EkoOptions)
-Will load and display an eko project. The EkoPlayer will display the loading animation while it prepares the project for playback if `showCover=true` in the options.
+Will load and display an eko project. The EkoPlayer will display the loading animation while it prepares the project for playback if `cover` is set in the options.
 
 | Param           | Type           | Description  |
 | :-------------: |:--------------:| :------------|
