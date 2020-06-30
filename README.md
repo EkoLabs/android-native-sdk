@@ -1,6 +1,11 @@
 # android-native-sdk
 A lightweight SDK that allows for easy integration of eko projects into an Android app
+# Usage
+Add the Gradle dependency to your application's build.gradle file
 
+```groovy
+implementation 'com.eko:android-native-sdk:0.0.+'
+```
 # API
 ## EkoPlayer
 This is the view in which the eko player will reside. It will also forward any events from the player to the rest of the app.
