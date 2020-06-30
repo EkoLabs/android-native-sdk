@@ -7,13 +7,15 @@ import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.Toast
 import com.eko.sdk.*
 import org.json.JSONArray
 
-class MainActivity : AppCompatActivity(), IEkoPlayerListener, IEkoPlayerUrlListener {
+class MainActivity : AppCompatActivity(), IEkoPlayerListener, IEkoPlayerUrlListener,
+    IEkoPlayerShareListener {
     private lateinit var projectIdTextView: TextView
     private lateinit var customEventsTextView: TextView
     private lateinit var eventsTextView: TextView
@@ -21,6 +23,7 @@ class MainActivity : AppCompatActivity(), IEkoPlayerListener, IEkoPlayerUrlListe
     private lateinit var envTextView: TextView
     private lateinit var paramsTextView: TextView
     private lateinit var customCoverCheck: CheckBox
+    private lateinit var clearDataButton: Button
     private lateinit var ekoPlayer: EkoPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +37,7 @@ class MainActivity : AppCompatActivity(), IEkoPlayerListener, IEkoPlayerUrlListe
         envTextView = findViewById(R.id.envTextView)
         paramsTextView = findViewById(R.id.paramsTextView)
         customCoverCheck = findViewById(R.id.customCoverCheck)
+        clearDataButton = findViewById(R.id.clearDataButton)
         eventsTextView.movementMethod = ScrollingMovementMethod()
 
         ekoPlayer = findViewById(R.id.ekoplayer)
@@ -67,12 +71,21 @@ class MainActivity : AppCompatActivity(), IEkoPlayerListener, IEkoPlayerUrlListe
         Toast.makeText(this, "URL: $url", Toast.LENGTH_LONG).show()
     }
 
+    override fun onShare(url: String) {
+        Toast.makeText(this, "Shared: $url", Toast.LENGTH_LONG).show()
+    }
+
     fun loadProject(view: View) {
+        clearDataButton.isEnabled = false
         val projectId = projectIdTextView.text
         val customEvents = customEventsTextView.text
         if (projectId.isNotBlank()) {
             val configuration = EkoPlayerOptions()
-            configuration.events = customEvents.split(", ") + "eko.canplay"
+            if (customEvents.isNotBlank()) {
+                configuration.events = customEvents.split(", ") + "eko.canplay"
+            } else {
+                configuration.events = listOf("eko.canplay")
+            }
             val params = HashMap<String, String>()
             val paramsStringPairs = paramsTextView.text.split(",")
             paramsStringPairs.forEach { paramsPairString ->
@@ -86,9 +99,9 @@ class MainActivity : AppCompatActivity(), IEkoPlayerListener, IEkoPlayerUrlListe
             }
             configuration.environment = envTextView.text.toString()
             if (customCoverCheck.isChecked) {
-                val customCover = View(this)
-                customCover.setBackgroundColor(Color.BLUE)
-                configuration.customCover = customCover
+//                val customCover = View(this)
+//                customCover.setBackgroundColor(Color.BLUE)
+                configuration.cover = CustomCover::class.java
             }
             ekoPlayer.load(projectId.toString(), configuration)
             loadingTextView.visibility = View.VISIBLE
@@ -126,5 +139,18 @@ class MainActivity : AppCompatActivity(), IEkoPlayerListener, IEkoPlayerUrlListe
         } else {
             ekoPlayer.setEkoPlayerUrlListener(null)
         }
+    }
+
+    fun handleShareChecked(view: View) {
+        val isChecked = (view as CheckBox).isChecked
+        if (isChecked) {
+            ekoPlayer.setEkoPlayerShareListener(this)
+        } else {
+            ekoPlayer.setEkoPlayerShareListener(null)
+        }
+    }
+
+    fun onClearDataButtonPressed(view: View) {
+        EkoPlayer.clearData(this)
     }
 }

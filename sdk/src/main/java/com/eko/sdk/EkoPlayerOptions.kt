@@ -24,17 +24,10 @@ class EkoPlayerOptions {
     var events: List<String> = ArrayList()
 
     /**
-     * If `true`, the EkoPlayer will display a cover to hide the project's loading.
-     * Set to `false` if you already cover the loading in your app and want to save on resources.
+     * A View class to cover the loading of the eko project. Set to `null` to disable.
+     * Will be initialized by the EkoPlayer.
      */
-    var showCover = true
-
-    /**
-     * Set a custom cover to be shown while loading.
-     * EkoPlayer will handle adding and removing the view from the view tree.
-     * Please make sure the view's visibility is set to `VISIBLE`
-     */
-    var customCover: View? = null
+    var cover: Class<out View>? = EkoDefaultCover::class.java
 
     var environment: String? = null
 }
