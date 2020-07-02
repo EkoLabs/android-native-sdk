@@ -94,7 +94,7 @@ class EkoPlayer : FrameLayout {
     private fun onJSEvent(type: String, args: JSONArray?) {
         if (coverShown && type == "eko.canplay") {
             removeCover()
-        } else if (type == "eko.urls.openinparent") {
+        } else if (type == "eko.urls.intent") {
             val url = args?.getJSONObject(0)?.getString("url")
                 ?: return // event is malformed so we return
             if (urlListener != null) {
