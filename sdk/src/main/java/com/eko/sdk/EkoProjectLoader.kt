@@ -24,7 +24,7 @@ class EkoProjectLoader {
             throw EkoPlayerError(EkoPlayerError.TYPE.MALFORMED_RESPONSE, "URL not found - Missing embed url in response")
         }
 
-        var url = "${json.getString("embedUrl")}/?embedapi=1.0&sharemode=proxy&urlmode=proxy"
+        var url = "${json.getString("embedUrl")}/?embedapi=1.0&sharemode=proxy&urlsmode=proxy"
         config.params.forEach { entry ->
             url += "&${entry.key}=${entry.value}"
         }
